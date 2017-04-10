@@ -1,7 +1,7 @@
 #include <Arduino.h>
 #include <virtual_pins.h>
 #include "VPinsSPI.h"
-#include "../SPI/SPI.h"
+#include <SPI.h>
 
 #define PORTREGSZ 3//why is this not defined! damn weird build!
 
@@ -14,9 +14,9 @@
 //give real pin for spi latch, virtual port number, and # of ports
 SPIBranch::SPIBranch(SPIClass &spi,char latch_pin,char port,char sz):SPI(spi),latchPin(latch_pin),portBranch(port,sz),ioMode(VPSPI_COMPAT) {
 	pinMode(latchPin,OUTPUT);
-	vp_on(latchPin);
-	//SPI.begin();
 	//user can define latch initial status (we will just toggle it)
+	//vp_on(latchPin);
+	//SPI.begin();
 	//this will select positive/negative polarity of the latch pin
 	//for the hw spi SPI.setDataMode(...) can be used
 	//also spi clock can be adjusted
@@ -55,5 +55,3 @@ void SPIBranch::io() {
 	}
 	vp_pulse(latchPin);//write data
 }
-
-
